@@ -1,14 +1,13 @@
 import Axios from 'axios'
-import { createEndpoint } from './helpers/createEndpoint'
-import { createHeaders } from './helpers/createHeaders'
-import { createQueryParams } from './helpers/createQueryParams'
-import { Credential } from './types/credential'
+import { Credential } from '../types/credential'
+import { createEndpoint } from './createEndpoint'
+import { createHeaders } from './createHeaders'
+import { createQueryParams } from './createQueryParams'
 
-export const request = <
+export const createRequest = (credential: Credential) => <
   Request extends { [key: string]: boolean | string | number | void },
   Response
 >(
-  credential: Credential,
   method: 'DELETE' | 'GET' | 'POST',
   path: string
 ) => {
