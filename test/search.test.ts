@@ -1,6 +1,7 @@
 import { createClient } from '../lib'
 
-test('statuses/update', async () => {
+// yarn jest test/search.test.ts
+test('search/tweets', async () => {
   if (!process.env.API_KEY) {
     throw new Error('API_KEY not found')
   }
@@ -24,9 +25,7 @@ test('statuses/update', async () => {
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET
   })
 
-  const status = await client.statuses.update({
-    status: Date.now().toString()
-  })
+  const { statuses } = await client.search.tweets({ q: '#qookie' })
 
-  expect(typeof status.id_str).toBe('string')
+  expect(Array.isArray(statuses)).toBeTruthy()
 })
