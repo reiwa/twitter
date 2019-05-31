@@ -1,6 +1,9 @@
 {
   "presets": [
-    ["@babel/preset-env", { "targets": { "node": 8 } }],
+    [
+      "@babel/preset-env",
+      { "corejs": "3", "targets": { "node": 8 }, "useBuiltIns": "usage" }
+    ],
     "@babel/typescript"
   ]
 }

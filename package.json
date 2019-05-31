@@ -1,6 +1,6 @@
 {
-  "name": "twitter",
-  "version": "0.1.0",
+  "name": "@reiwa/twitter",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "license": "MIT",
   "files": [
@@ -14,6 +14,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "axios": "^0.18.0",
+    "core-js": "3",
     "oauth-1.0a": "^2.2.5"
   },
   "devDependencies": {
@@ -37,10 +38,15 @@
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.5"
   },
-  "private": true,
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 8"
   }
 }
