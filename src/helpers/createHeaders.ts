@@ -18,7 +18,9 @@ export const createHeaders = ({
 }) => {
   const oauth = new OAuth({
     consumer: { key: apiKey, secret: apiSecretKey },
+    // eslint-disable-next-line @typescript-eslint/camelcase
     signature_method: 'HMAC-SHA1',
+    // eslint-disable-next-line @typescript-eslint/camelcase
     hash_function: createHash
   })
 
@@ -29,7 +31,7 @@ export const createHeaders = ({
   const authorization = oauth.authorize(request, token)
 
   return {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
     Accept: 'application/json',
     ...oauth.toHeader(authorization)
   }
