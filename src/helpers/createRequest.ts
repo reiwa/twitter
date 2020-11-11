@@ -1,27 +1,28 @@
 import Axios from 'axios'
+import querystring from 'querystring'
 import { Credential } from '../types/credential'
 import { createEndpoint } from './createEndpoint'
 import { createHeaders } from './createHeaders'
-import { createQueryParams } from './createQueryParams'
 
 export const createRequest = (credential: Credential) => <
-  Request extends { [key: string]: boolean | string | number | void },
+  Request extends { [key: string]: boolean | string | number },
   Response
 >(
   method: 'DELETE' | 'GET' | 'POST',
   path: string
 ) => {
   return async (data: Request) => {
-    const queryParams = createQueryParams(data)
+    const queryParams = querystring.stringify(data)
 
     const url = createEndpoint(path, queryParams)
 
-    const headers = createHeaders({ method, url, ...credential })
+    const headers = createHeaders({ method, url, data: {}, ...credential })
 
     const res = await Axios.request<Response>({
       method,
       headers,
-      url
+      url,
+      validateStatus: () => true,
     })
 
     return res.data

@@ -1,14 +1,16 @@
+import crypto from 'crypto'
 import OAuth from 'oauth-1.0a'
-import { createHash } from './createHash'
 
-export const createHeaders = ({
+export const createHeaders = <T>({
+  data,
   method,
   url,
   apiKey,
   apiSecretKey,
   accessToken,
-  accessTokenSecret
+  accessTokenSecret,
 }: {
+  data: T
   method: string
   url: string
   apiKey: string
@@ -18,21 +20,30 @@ export const createHeaders = ({
 }) => {
   const oauth = new OAuth({
     consumer: { key: apiKey, secret: apiSecretKey },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     signature_method: 'HMAC-SHA1',
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    hash_function: createHash
+    hash_function: (baseString, key) => {
+      return crypto
+        .createHmac('sha1', key)
+        .update(baseString)
+        .digest('base64')
+    },
+    body_hash_function: data => {
+      return crypto
+        .createHash('sha1')
+        .update(data)
+        .digest('base64')
+    },
   })
 
-  const token: OAuth.Token = { key: accessToken, secret: accessTokenSecret }
+  const authorization = oauth.authorize(
+    {
+      url,
+      method,
+      data,
+      includeBodyHash: true,
+    },
+    { key: accessToken, secret: accessTokenSecret }
+  )
 
-  const request: OAuth.RequestOptions = { url, method }
-
-  const authorization = oauth.authorize(request, token)
-
-  return {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Accept: 'application/json',
-    ...oauth.toHeader(authorization)
-  }
+  return oauth.toHeader(authorization)
 }

@@ -8,18 +8,18 @@
   ],
   "scripts": {
     "build": "babel src --out-dir lib --extensions .ts && tsc --outDir lib/ --emitDeclarationOnly",
-    "build:watch": "babel src --out-dir lib --extensions .ts -w",
+    "dev": "babel src --out-dir lib --extensions .ts -w",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
     "axios": "^0.18.0",
     "core-js": "3",
-    "oauth-1.0a": "^2.2.5"
+    "oauth-1.0a": "^2.2.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.13",
